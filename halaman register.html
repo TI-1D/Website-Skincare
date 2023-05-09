@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Register Form</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    $(document).ready(function() {
+      $("#register-form").submit(function(e) {
+        e.preventDefault(); // membatalkan submit form untuk menampilkan loading
+        $("#loading").show(); // menampilkan loading
+        $.ajax({
+          type: "POST", // method pengiriman data
+          url: "register.php", // file tujuan pengiriman data
+          data: $("#register-form").serialize(), // data yang akan dikirim dari form
+          success: function(response) { // jika pengiriman data sukses
+            $("#loading").hide(); // menyembunyikan loading
+            alert(response); // menampilkan pesan hasil pengiriman data
+            window.location.href = "index.html"; // mengarahkan halaman ke index.html
+          },
+          error: function() { // jika pengiriman data gagal
+            $("#loading").hide(); // menyembunyikan loading
+            alert("Register Failed."); // menampilkan pesan kesalahan
+          }
+        });
+      });
+    });
+  </script>
+  <style>
+    /* CSS untuk loading */
+    #loading {
+      display: none;
+      position: fixed;
+      z-index: 999;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      background-color: rgba(0,0,0,0.5);
+    }
+
+    .spinner {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      border: 16px solid #f3f3f3; /* Light grey */
+      border-top: 16px solid #3498db; /* Blue */
+      border-radius: 50%;
+      width: 120px;
+      height: 120px;
+      animation: spin 2s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: translate(-50%, -50%) rotate(0deg); }
+      100% { transform: translate(-50%, -50%) rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+    <link rel="stylesheet" href="login.css">
+    <form class="form" id="register-form">
+        <h2>Daftar Akun Baru</h2>
+        <div class="form-control">
+          <label for="username">Username</label>
+          <input type="text" id="username" placeholder="Enter username">
+          <span class="error-message" id="username-error"></span>
+        </div>
+        <div class="form-control">
+          <label for="email">Email</label>
+          <input type="email" id="email" placeholder="Enter email">
+          <span class="error-message" id="email-error"></span>
+        </div>
+        <div class="form-control">
+          <label for="password">Password</label>
+          <input type="password" id="password" placeholder="Enter password">
+          <span class="error-message" id="password-error"></span>
+        </div>
+        <div class="form-control">
+          <label for="password2">Confirm Password</label>
+          <input type="password" id="password2" placeholder="Confirm password">
+          <span class="error-message" id="password2-error"></span>
+        </div>
+        <button type="submit" id="register-button">Register</button>
+      </form>
+  <!-- elemen loading -->
+  <div id="loading">
+    <div class="spinner"></div>
+  </div>
+</body>
+</html>
